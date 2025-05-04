@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: netflix-clone-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: CLIENT_URL
+        value: https://your-netflix-clone.netlify.app  # We'll update this after deploying the frontend 

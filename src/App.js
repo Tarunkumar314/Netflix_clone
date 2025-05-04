@@ -14,6 +14,7 @@ import Category from "./pages/Category/Category";
 import DetailModal from "./components/DetailModal/DetailModal";
 import SplashAnimation from "./components/SplashAnimation/SplashAnimation";
 import PlayAnimation from "./components/PlayAnimation/PlayAnimation";
+import WatchTogether from "./features/watchTogether/components/WatchTogether";
 import { selectCurrentUser } from './redux/auth/auth.selectors';
 import { selectSearchResults } from "./redux/search/search.selectors";
 import { checkUserSession } from "./redux/auth/auth.actions";
@@ -113,6 +114,11 @@ const App = () => {
                         exact
                         path="/mylist"
                         render={() => currentUser ? <MyList /> : <Redirect to="/login" />}
+                    />
+                    <Route
+                        exact
+                        path="/watch/:roomId"
+                        render={() => currentUser ? <WatchTogether /> : <Redirect to="/login" />}
                     />
                     <Route
                         exact

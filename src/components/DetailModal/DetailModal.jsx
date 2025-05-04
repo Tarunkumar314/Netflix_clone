@@ -1,6 +1,6 @@
 import './detailModal.scss'
 import { useRef } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion"
 import { staggerOne, modalOverlayVariants, modalVariants, modalFadeInUpVariants } from "../../motionUtils";
 import { hideModalDetail } from "../../redux/modal/modal.actions";
@@ -9,13 +9,14 @@ import { selectModalContent, selectModalState } from "../../redux/modal/modal.se
 import { BASE_IMG_URL, FALLBACK_IMG_URL } from "../../requests";
 import { VscChromeClose } from "react-icons/vsc";
 import { capitalizeFirstLetter, dateToYearOnly } from "../../utils";
-import { FaMinus, FaPlay, FaPlus } from "react-icons/fa";
+import { FaMinus, FaPlay, FaPlus, FaUsers } from "react-icons/fa";
 import { addToFavourites, removeFromFavourites } from "../../redux/favourites/favourites.actions";
 import useOutsideClick from "../../hooks/useOutsideClick";
+import { v4 as uuidv4 } from 'uuid';
 
 const DetailModal = () => {
-
 	const dispatch = useDispatch();
+	const history = useHistory();
 	const modalClosed = useSelector(selectModalState);
 	const modalContent = useSelector(selectModalContent);
 	const handleModalClose = () => dispatch(hideModalDetail());
@@ -38,6 +39,14 @@ const DetailModal = () => {
 		event.stopPropagation();
 		handleModalClose();
 	};
+
+	const handleWatchTogether = (event) => {
+		event.stopPropagation();
+		const roomId = uuidv4();
+		history.push(`/watch/${roomId}`);
+		handleModalClose();
+	};
+
 	useOutsideClick(modalRef, () => {
 		if (!modalClosed) handleModalClose();
 	});
@@ -82,6 +91,13 @@ const DetailModal = () => {
 										<FaPlay />
 										<span>Play</span>
 									</Link>
+									<button
+										className="Modal__image--button"
+										onClick={handleWatchTogether}
+									>
+										<FaUsers />
+										<span>Watch Together</span>
+									</button>
 									{!isFavourite
 										? (
 											<button className='Modal__image--button-circular' onClick={handleAdd}>
